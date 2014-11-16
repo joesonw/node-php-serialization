@@ -4,6 +4,7 @@
     var bigdecimal=require("bigdecimal");
     exports.unserialize = unserialize;
     exports.serialize=serialize;
+	exports.Class=Class;
     
     
     function read(string,length) {
