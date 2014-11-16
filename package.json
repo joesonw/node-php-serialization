@@ -12,7 +12,12 @@
   },
   "keywords": [
     "php",
-    "serialization"
+    "serialization",
+    "unserialization",
+    "serialize",
+    "unserialize",
+    "session",
+    "laravel"
   ],
   "dependencies": {
 	"bigdecimal":"~0.6.1",
