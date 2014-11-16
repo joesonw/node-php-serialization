@@ -1,6 +1,6 @@
 {
   "name": "php-serialization",
-  "version": "0.0.1.1",
+  "version": "0.0.2",
   "description": "A library used to serialize and unserialize like it was in php (especially useful for manipulating laravel sessions stored with redis server)",
   "main": "index.js",
   "scripts": {
