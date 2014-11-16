@@ -1,6 +1,6 @@
  php-serialization
 ==================
-Javascript tool to unserialize php serialized data, or to serialize the php does. This was originally used in manipulating php session stored in redis server.
+Javascript tool to unserialize php serialized data, or to serialize data the way php does. This was originally used in manipulating php session stored in redis server.
 
 
 Installation
