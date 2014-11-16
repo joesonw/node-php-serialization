@@ -2,7 +2,7 @@
 ==================
 Javascript tool to unserialize php serialized data, or to serialize data the way php does. This was originally used in manipulating php session stored in redis server.
 
-
+This also supports Laravel extended php session serialization (can be used to serialize/unserialize Laravel session)
 Installation
 ------------
 
