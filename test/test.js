@@ -1,9 +1,9 @@
-var expect=require("chai").expect;
-var serialize=require("..").serialize;
-var Class=require("../Class").Class;
+var expect = require("chai").expect;
+var serialize = require("..").serialize;
+var Class = require("../Class").Class;
 
 function test_serialize(i) {
-	var	obj=require("./tests/serialize."+i+".js").result;
+	var	obj = require("./tests/serialize."+i+".js").result;
 	expect(obj).to.have.property(0);
 	expect(obj[0]).to.be.a("number");
 	expect(obj[0]).to.eql(42);
@@ -20,10 +20,13 @@ function test_serialize(i) {
 	expect(obj).to.have.property(5);
 	expect(obj[5]).to.be.a("number");
 	expect(obj[5]).to.eql(42.23);
-	var str=require("./tests/unserialize."+i+".json").result;
+	var str = require("./tests/unserialize."+i+".json").result;
 	expect(serialize(obj,"array")).to.eql(str);
 }
 
 describe("serialize()",function() {
-	it("should serialize test data set #0",test_serialize(0));
+	it("should serialize test data set #0", function(done) {
+		test_serialize(0);
+		done();
+	});
 });

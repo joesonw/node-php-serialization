@@ -6,7 +6,7 @@
     }
     Class.prototype.__has__=function(k) {
         return (k in this.__attr__);
-    }
+    };
     Class.prototype.__addAttr__=function(name,kType,val,type,scope,getter,setter) {
         var _getter=getter;
         var _setter=setter;
@@ -32,16 +32,16 @@
                 this.__attr__[name].set(v);
             }
         });
-    }
+    };
     Class.prototype.__typeOf__=function(name) {
         return this.__attr__[name].type;
-    }
+    };
     Class.prototype.__keyTypeOf__=function(name) {
         return this.__attr__[name].kType;
-    }
+    };
     Class.prototype.__scopeOf__=function(name) {
         return this.__attr__[name].scope;
-    }
+    };
     Class.prototype.toString=function() {
         var result=this.__name__+":Class";
         for (k in this.__attr__) {
@@ -54,5 +54,5 @@
         }
         return result;
     }
-    
+
 })((typeof window === 'undefined') ? global : window, (typeof window === 'undefined') ? exports : (window.Class = {}));

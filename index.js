@@ -5,21 +5,21 @@
     exports.unserialize = unserialize;
     exports.serialize=serialize;
 	exports.Class=Class;
-    
-    
+
+
     function read(string,length) {
         var counter=0;
         var buf='';
         var scope='public';
         var i=0;
-        
+
         if (string.charCodeAt(0)===0) {
             if (string.charAt(1).charCodeAt(0)===42) {
                 scope="protected";
                 length-=3;
                 string=string.substr(3);
             } else {
-                scope="private";            
+                scope="private";
             }
         }
         for (;counter<length;i++,counter++) {
@@ -34,11 +34,11 @@
         }
         return {result:buf,scope:scope,length:counter};
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     function readUntil(string, delimiter,delimiter2) {
         var buf = "";
         if (delimiter2==undefined) {
@@ -67,32 +67,33 @@
         var typeResult = readUntil(buf, ':',';');
         buf = typeResult.buffer;
         var type = typeResult.result;
-        var buf2;
+        var buf2, buf2Result;
         switch (type.toLowerCase()) {
             case 's':
             case 'a':
             case 'o':
             case 'c':
-                var buf2Result = readUntil(buf, ':');
+                buf2Result = readUntil(buf, ':');
                 buf = buf2Result.buffer;
-                var buf2 = buf2Result.result;
+                buf2 = buf2Result.result;
                 break;
             case 'd':
             case 'i':
             case 'b':
             case 'r':
-                var buf2Result = readUntil(buf, ';');
+                buf2Result = readUntil(buf, ';');
                 buf = buf2Result.buffer;
-                var buf2 = buf2Result.result;
+                buf2 = buf2Result.result;
                 break;
         }
+        var length,val;
         switch (type.toLowerCase()) {
             case 's':   //s:len<string>:"<string>";
-                var length = parseInt(buf2);  //string length;
+                length = parseInt(buf2);  //string length;
                 var valResult=read(buf.substr(1),length);
-                var val=valResult.result;
+                val = valResult.result;
                 var valScope=valResult.scope;
-                
+
                 if (valScope==="protected") {
                     buf=buf.substr(1+val.length+3+2);
                 } else if (valScope==="private") {
@@ -103,39 +104,38 @@
                 result={result:val,type:"string",scope:valScope};
                 break;
             case 'i':   //i:<integer>;
-                var val = parseInt(buf2);
+                val = parseInt(buf2);
                 result={result:val,type:"integer"};
                 break;
             case 'd':    //d:<float>;
-                var val = new bigdecimal.BigDecimal(buf2);
+                val = new bigdecimal.BigDecimal(buf2);
                 result={result:val,type:'float'};
                 break;
             case 'r':    //r:<integer>;
-                var val=parseInt(buf2);
+                val=parseInt(buf2);
                 result={result:val,type:'resource'};
                 break;
             case 'a':    //a:len<array>:{<key>;<val>.....}
                 var tmpResult = unserialize_array(buf, parseInt(buf2));
                 buf = tmpResult.buffer;
-                result = {result:tmpResult.result,type:'array'}; 
+                result = {result:tmpResult.result,type:'array'};
                 break;
             case 'o':    //o:len<object_class_name>:<object_class_name>:len<object>:{<key>;<val>....}
-                var length = parseInt(buf2);  // object name length
+                length = parseInt(buf2);  // object name length
                 var objectNameResult=read(buf.substr(1),length);
                 var objectName=objectNameResult.result;
                 buf=buf.substr(1+objectNameResult.length+2);
-                var buf3Result=readUntil(buf,':') //properties size
+                var buf3Result=readUntil(buf,':'); //properties size
                 var buf3=buf3Result.result;
                 buf=buf3Result.buffer;
-                
+
                 var tmpResult=unserialize_object(buf,parseInt(buf3),objectName);
                 buf=tmpResult.buffer;
-                
-                
+
                 result={result:tmpResult.result,type:'object'};
                 break;
             case 'c':     //c:len<class_name>:"<class_name>":len<val>:{<val>}
-                var length=parseInt(buf2); //class name length
+                length=parseInt(buf2); //class name length
                 var className=buf.substr(1,length);
                 buf=buf.substr(1+length+2);
                 var valueLengthBuffer=readUntil(buf,':');
@@ -149,10 +149,10 @@
                 result={result:null,type:'null'};
                 break;
             case 'b':   //b:<digit>;  digit is either 1 or 0
-                result={result:buf2==="1"?true:false,type:'boolean'};
+                result={result:buf2==="1", type:'boolean'};
                 break;
             default:
-                console.log(copy)
+                console.log(copy);
                 throw new Error("unknown token:"+type);
                 break;
         }
@@ -166,9 +166,9 @@
         var result=new Class(namespace);
         for (var i = 0; i < size; i++) {
             var keyResult = unserialize_item(buf);
-            
+
             var key=keyResult.result.result;
-            if (keyResult.result.scope==="private") {;
+            if (keyResult.result.scope==="private") {
                 key=key.substr(namespace.length);
             }
             buf=keyResult.buffer;
@@ -201,9 +201,9 @@
     function unserialize(body) {
         return unserialize_item(body).result.result;
     }
-    
+
     ///serialize;
-    
+
     function lenString(string) {
         var length=0;
         for (var i=0;i<string.length;i++,length++) {
@@ -214,7 +214,7 @@
         }
         return length;
     }
-    
+
     function serialize_item(body,type,namespace) {
         switch (type) {
             case "string":
@@ -233,7 +233,7 @@
                 var buf="";
                 var count=0;
                 for (k in body.__attr__) {
-                    
+
                     if (k==undefined) continue;
                     buf+=serialize_item(k,body.__keyTypeOf__(k));
                     buf+=serialize_item(body[k],body.__typeOf__(k));
@@ -254,7 +254,7 @@
                             key=String.fromCharCode(0)+"*"+String.fromCharCode(0)+key;
                             break;
                     }
-                    
+
                     buf+=serialize_item(key,body.__keyTypeOf__(k));
                     buf+=serialize_item(body[k],body.__typeOf__(k));
                     count++;
@@ -268,7 +268,7 @@
                 break;
         }
     }
-    
+
     function serialize(body,type) {
         return serialize_item(body,type);
     }
