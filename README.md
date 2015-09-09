@@ -76,7 +76,7 @@ if name is null,it means it's a normal array/object (not a class)
 ####Class.\_\_addAttr\_\_(key:\*,keyType:*string*,value:\*,valueType:*string*,scope:*string*="public",getter:*Function*=default,setter:*Function*=default);
 ```
 notice that *key* can only be integer or string;
-*keyType* and *vaueType* indicates the type of key/value;
+*keyType* and *valueType* indicates the type of key/value;
 *scope* can be public,protected,private ;
 *getter* and *setter* are called when getting/setting this value. default setter/getter are provided,which would be simple return/set values.(eg,without typechecking,etc);
 ```
