@@ -55,7 +55,7 @@ float   d:<D+.D+>;                              //d:<value>;
 string  s:<D+>:"<S+>";                          //s:<length of string>:"<string>";
 boolean b:<B>;                                  //b:<true of false>; notice that it can only be either 1 or 0;
 null    n;                                      //
-class   c:<D+>:"<S+>":<D+>:{<S+>}               //c:<length of class name>:<class name>:<length of value>:{<value>}   notice that this is a general class, it presents the serialized valye of a class (reasons are still unknown,only seen in laravel). For general meaning class,please see *Object*
+class   c:<D+>:"<S+>":<D+>:{<S+>}               //c:<length of class name>:<class name>:<length of value>:{<value>}   notice that this is a general class, it presents the serialized value of a class (reasons are still unknown,only seen in laravel). For general meaning class,please see *Object*
 array   a:<D+>:{<[KV]+>}                        //a:<size of properties>:{<property_key><property_value>......}
 object  o:<D+>:"<S+>":<D+>:{<[KV]+>}            //o:<length of object/class name>:"<object/class name>":<size of properties>:{<property_key><property_value>......}
 resource r:<D+>;                                //r:<resource id>;
